@@ -230,21 +230,16 @@ matchmaking:
   selection: cyclic
   types:
     anti:
-      tc: 0.75+0
-      variant: antichess
- #     rated: false
     frc:
       tc: 0.5+0
       variant: chess960
-    horde:
-      tc: 0.75+0
-      variant: horde
+      rated: false
     blitz:
       tc: 3+0
-    rapid:
-      tc: 8+0
+      rated: false
     bulle:
       tc: 0.5+0
+      rated: false
  #     rated: false
  #   atoms:
  #    tc: 1+0
