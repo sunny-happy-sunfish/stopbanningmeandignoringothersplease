@@ -219,10 +219,10 @@ challenge:
     - bullet
   bot_modes:
     - casual
-    - rated
+ #   - rated
   human_modes:
     - casual
-    - rated
+#    - rated
 
 matchmaking:
   delay: 10
