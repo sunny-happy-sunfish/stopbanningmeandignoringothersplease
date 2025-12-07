@@ -229,7 +229,6 @@ matchmaking:
   timeout: 15
   selection: cyclic
   types:
-    anti:
     frc:
       tc: 0.5+0
       variant: chess960
