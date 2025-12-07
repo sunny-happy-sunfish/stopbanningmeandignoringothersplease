@@ -1,0 +1,36 @@
+name: Run bot
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-bot:
+    name: Run bot
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+      - uses: actions/checkout@v3
+      
+      - name: Install requirements
+        run: pip install -r requirements.txt
+        
+      - name: Token
+        run: sed -i "s/litoken_idk/${{ secrets.TOKEN }}/g" config.yml
+        
+      - name: chmod
+        run: chmod +x ./engines/stockfish ./engines/fairysf
+        
+      - name: Run bot
+        run: |
+          python -u user_interface.py  &
+          PID=$!
+          # Auto-exit before GitHub 6h limit
+          ( sleep 20100 && echo "Time up. Killing bot..." && kill -SIGTERM $PID ) &
+          wait $PID
+          echo "Bot ended cleanly."
+
+      - name: Self-restart
+        if: always()
+        run: gh workflow run run.yml
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
