@@ -219,26 +219,50 @@ challenge:
     - bullet
   bot_modes:
     - casual
- #   - rated
+    - rated
   human_modes:
     - casual
-#    - rated
+    - rated
 
 matchmaking:
   delay: 10
   timeout: 15
   selection: cyclic
   types:
+    anti:
+      tc: 0.75+0
+      variant: antichess
+ #     rated: false
     frc:
       tc: 0.5+0
       variant: chess960
-      rated: false
+    horde:
+      tc: 0.75+0
+      variant: horde
+    bullet:
+      tc: 0.5+0
+    bulle:
+      tc: 1+0
+    bullt:
+      tc: 0+1
     blitz:
       tc: 3+0
-      rated: false
-    bulle:
-      tc: 0.5+0
-      rated: false
+    bullee:
+      tc: 2+1
+    bullte:
+      tc: 1+1
+    blit2:
+      tc: 3+2
+    blit:
+      tc: 5+0
+    blitze:
+      tc: 5+3
+    rapid:
+      tc: 8+0
+    slower:
+      tc: 10+0
+    idk:
+      tc: 10+5
  #     rated: false
  #   atoms:
  #    tc: 1+0
