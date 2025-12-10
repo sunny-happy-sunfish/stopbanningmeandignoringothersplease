@@ -129,7 +129,7 @@ jobs:
         
       - name: Run bot
         run: |
-          python user_interface.py --upgrade &
+          python user_interface.py matchmaking &
           PID=$!
           # abc
           ( sleep 20100 && echo "Time up. Killing bot..." && kill -SIGTERM $PID ) &
