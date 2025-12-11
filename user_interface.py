@@ -21,8 +21,6 @@ try:
 except ImportError:
     readline = None
 
-
-
 COMMANDS = {
     "blacklist": "Temporarily blacklists a user. Use config for permanent blacklisting. Usage: blacklist USERNAME",
     "challenge": "Challenges a player. Usage: challenge USERNAME [TIMECONTROL] [COLOR] [RATED] [VARIANT]",
@@ -137,7 +135,10 @@ class UserInterface:
     async def _download_online_blacklists(self) -> None:
         for url in self.config.online_blacklists:
             online_blacklist = await self.api.download_blacklist(url) or []
-            self.config.blacklist.extend(username.lower() for username in online_blacklist)
+            online_blacklist = [
+                username for username in map(str.lower, online_blacklist) if username not in self.config.whitelist
+            ]
+            self.config.blacklist.extend(online_blacklist)
             print(f'Blacklisted {len(online_blacklist)} users from "{url}".')
 
     async def _handle_command(self, command: list[str]) -> None:
