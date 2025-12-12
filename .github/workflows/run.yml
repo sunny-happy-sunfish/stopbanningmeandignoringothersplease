@@ -96,7 +96,7 @@ jobs:
           echo "Bot ended cleanly."
 
       - name: Self-restart
-        if: fail()
+        if: failure()
         run: gh workflow run run.yml
         env:
           GH_TOKEN: ${{ secrets.PAT_TOKEN }}
@@ -143,7 +143,7 @@ jobs:
           echo "Bot ended cleanly."
 
       - name: Self-restart
-        if: fail()
+        if: failure()
         run: gh workflow run run.yml
         env:
           GH_TOKEN: ${{ secrets.PAT_TOKEN }}
