@@ -1,4 +1,4 @@
-name: Run bot
+name: Run bots
 
 on:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
     paths: "user_interface.py"
 
 jobs:
-  run-bot:
+  run-bot1nokk:
     concurrency:
       group: bot1nokk
       cancel-in-progress: false
@@ -22,18 +22,18 @@ jobs:
           python-version: '3.13'
       
       - name: Install requirements
-        uses: py-actions/py-dependency-install@v4.0.0
+        run: pip install -r requirements.txt
         
       - name: Token
-        run: sed -i "s/litoken_idk/${{ secrets.BOT1NOKK }}/g" config.yml
+        run: sed -i "s/litoken_idk/${{ secrets.TOKEN4 }}/g" config.yml
 
-      - name: get sf
-        run: |
-          curl -sSL https://raw.githubusercontent.com/ppigazzini/stockfish-downloader/main/posix_helper.sh | sh -s
-          tar -xf stockfish-*.tar
-          rm stockfish-*.tar
-          mv -f stockfish/stockfish-* engines/stockfish
-          rm -r stockfish
+#      - name: get sf
+#        run: |
+#          curl -sSL https://raw.githubusercontent.com/ppigazzini/stockfish-downloader/main/posix_helper.sh | sh -s
+#          tar -xf stockfish-*.tar
+#          rm stockfish-*.tar
+#          mv -f stockfish/stockfish-* engines/stockfish
+#          rm -r stockfish
         
       - name: chmod
         run: chmod +x ./engines/stockfish ./engines/fairysf
@@ -52,8 +52,7 @@ jobs:
         run: gh workflow run run.yml
         env:
           GH_TOKEN: ${{ secrets.PAT_TOKEN }}
-
-
+          
   run-sfbot1nok:
     concurrency:
       group: sf_bot1nok
@@ -75,13 +74,60 @@ jobs:
       - name: Token
         run: sed -i "s/litoken_idk/${{ secrets.TOKEN }}/g" config.yml
 
-      - name: get sf
+#      - name: get sf
+#        run: |
+#          curl -sSL https://raw.githubusercontent.com/ppigazzini/stockfish-downloader/main/posix_helper.sh | sh -s
+#          tar -xf stockfish-*.tar
+#          rm stockfish-*.tar
+#          mv -f stockfish/stockfish-* engines/stockfish
+#          rm -r stockfish
+        
+      - name: chmod
+        run: chmod +x ./engines/stockfish ./engines/fairysf
+        
+      - name: Run bot
         run: |
-          curl -sSL https://raw.githubusercontent.com/ppigazzini/stockfish-downloader/main/posix_helper.sh | sh -s
-          tar -xf stockfish-*.tar
-          rm stockfish-*.tar
-          mv -f stockfish/stockfish-* engines/stockfish
-          rm -r stockfish
+          python -u user_interface.py matchmaking &
+          PID=$!
+          # abc
+          ( sleep 20100 && echo "Time up. Killing bot..." && kill -SIGTERM $PID ) &
+          wait $PID
+          echo "Bot ended cleanly."
+
+      - name: Self-restart
+        if: failure()
+        run: gh workflow run run.yml
+        env:
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
+  
+  run-bot1e:
+    concurrency:
+      group: bot1e
+      cancel-in-progress: false
+    name: Run bot1e
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      
+      - name: Install requirements
+        uses: py-actions/py-dependency-install@v4.0.0
+        
+      - name: Token
+        run: sed -i "s/litoken_idk/${{ secrets.TOKEN2 }}/g" config.yml
+
+#      - name: get sf
+#        run: |
+#          curl -sSL https://raw.githubusercontent.com/ppigazzini/stockfish-downloader/main/posix_helper.sh | sh -s
+#          tar -xf stockfish-*.tar
+#          rm stockfish-*.tar
+#          mv -f stockfish/stockfish-* engines/stockfish
+#          rm -r stockfish
         
       - name: chmod
         run: chmod +x ./engines/stockfish ./engines/fairysf
@@ -122,13 +168,13 @@ jobs:
       - name: Token
         run: sed -i "s/litoken_idk/${{ secrets.TOKEN3 }}/g" config.yml
 
-      - name: get sf
-        run: |
-          curl -sSL https://raw.githubusercontent.com/ppigazzini/stockfish-downloader/main/posix_helper.sh | sh -s
-          tar -xf stockfish-*.tar
-          rm stockfish-*.tar
-          mv -f stockfish/stockfish-* engines/stockfish
-          rm -r stockfish
+#      - name: get sf
+#        run: |
+#          curl -sSL https://raw.githubusercontent.com/ppigazzini/stockfish-downloader/main/posix_helper.sh | sh -s
+#          tar -xf stockfish-*.tar
+#          rm stockfish-*.tar
+#          mv -f stockfish/stockfish-* engines/stockfish
+#          rm -r stockfish
         
       - name: chmod
         run: chmod +x ./engines/stockfish ./engines/fairysf
