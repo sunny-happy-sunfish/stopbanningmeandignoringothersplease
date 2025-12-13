@@ -6,11 +6,11 @@ on:
     paths: "user_interface.py"
 
 jobs:
-  run-bot1e:
+  run-bot:
     concurrency:
-      group: bot1e
+      group: bot1nokk
       cancel-in-progress: false
-    name: Run bot1e
+    name: Run bot1nokk
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
